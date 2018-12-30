@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/ihassanamjad/productsapp/issues"
   },
-  "homepage": "https://github.com/ihassanamjad/productsapp#readme"
+  "homepage": "https://github.com/ihassanamjad/productsapp#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.1"
+  }
 }
