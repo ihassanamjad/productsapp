@@ -6,5 +6,7 @@ const productController = require('../controllers/products')
 
 //A simple Test to check if our controller is communicating fine with our files
 router.get('/test', productController.test);
+router.post('/create', productController.create);
+router.get('/GetProducts', productController.findAll);
 
 module.exports = router;

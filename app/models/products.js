@@ -10,6 +10,12 @@ let ProductSchema = new Schema(
 );
 
 //Exporting the Model
+
+// mongoose.model(
+//      1st argument = Name
+//      2nd arugment = Schema
+//      3rd argument = Collection Name you want to store in DB
+//)
 module.exports = mongoose.model(
-    'Product' , ProductSchema
+    'Product' , ProductSchema,  'newproducts' 
 )
