@@ -32,8 +32,63 @@ exports.create = (req, res) => {
         })
 }
 
-//Retreive all products from the database
-exports.findAll = (req, res) => {
+//Retreive all products from the database using Async Function
+exports.findAll = async (req, res) => {
+    let products = await Product.find().exec();
+    if (products) {
+        return res.send({
+            status: true,
+            message: "Products retreived successfully",
+            data: products
+        })
+    }
+    else {
+        return res.send({
+            status: false,
+            message: "No products found in database",
+            data: products
+        })
+    }
+}
+
+//Retreive a single product from Database
+
+exports.findOne = async (req, res) => {
+    try {
+        let product = await Product.findOne({_id:req.params.productID}).exec();
+        if (!product) {
+            return res.status(404).send(
+                {
+                    status: false,
+                    message: "No product found against id " + req.params.productID
+                }
+            )
+        }
+        else {
+            return res.send(
+                {
+                    status: true,
+                    message: "Product retrieved successfully",
+                    data: product
+                }
+            )
+        }
+    } catch (error) {
+
+        console.log(error.message);
+        console.log(error.stack);
+        return res.status(404).send(
+            {
+                status: false,
+                message: "No product found against id " + req.params.productID
+            }
+        )
+    }
+
+}
+
+
+/*exports.findAll = (req, res) => {
     Product.find().then(
         products => {
             res.send(products);
@@ -43,4 +98,49 @@ exports.findAll = (req, res) => {
             message: err.message || "Some Error occurred while getting products"
         })
     })
-}
+}*/
+
+//Retreive single product from the database
+// exports.findOne = (req, res) => {
+//     Product.findById(req.params.productID)
+//     .then(product => {
+//         if(!product){
+//             return res.status(404).send({
+//                 message: "Product not found against id " + req.params.productID
+//             })
+//         }
+//         res.send(product);
+//     }).catch(err => {
+//         if (err.kind == 'ObjectId'){
+//             return res.status(404).send({
+//                 message: "Product Not found against id " + req.params.productID
+//             })
+//         }
+//         return res.status(500).send({
+//             message: "Error retrieving Product with this ID"
+//         })
+//     })
+// }
+
+// //Retreive single product from the database
+// exports.findOne = (req, res) => {
+//      let product = await Product.findById(req.query.productID).exec()
+//     Product.findById(req.query.productID)
+//     .then(product => {
+//         if(!product){
+//             return res.status(404).send({
+//                 message: "Product not found against id " + req.params.productID
+//             })
+//         }
+//         res.send(product);
+//     }).catch(err => {
+//         if (err.kind == 'ObjectId'){
+//             return res.status(404).send({
+//                 message: "Product Not found against id " + req.params.productID
+//             })
+//         }
+//         return res.status(500).send({
+//             message: "Error retrieving Product with this ID"
+//         })
+//     })
+// }

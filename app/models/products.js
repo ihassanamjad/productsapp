@@ -17,5 +17,5 @@ let ProductSchema = new Schema(
 //      3rd argument = Collection Name you want to store in DB
 //)
 module.exports = mongoose.model(
-    'Product' , ProductSchema,  'newproducts' 
+    'Product' , ProductSchema 
 )
