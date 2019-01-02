@@ -12,6 +12,7 @@ router.post('/Create', productController.create);
 router.get('/GetProducts', productController.findAll);
 router.get('/GetProducts/:productID', productController.findOne);
 router.put('/UpdateProduct/:productID', productController.Update);
+router.delete('/DeleteProduct/:productID', productController.DeleteProduct)
 //router.get('/GetProducts', productController.findOne);
 
 module.exports = router;

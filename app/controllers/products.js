@@ -39,10 +39,9 @@ exports.findAll = async (req, res) => {
         return res.send({
             status: true,
             message: "Products retreived successfully",
-            data: products
+            data: products.map(n => n.name)
         })
-    }
-    else {
+    } else {
         return res.send({
             status: false,
             message: "No products found in database",
@@ -55,34 +54,29 @@ exports.findAll = async (req, res) => {
 
 exports.findOne = async (req, res) => {
     try {
-        let product = await Product.findOne({_id:req.params.productID}).exec();
+        let product = await Product.findOne({
+            _id: req.params.productID
+        }).exec();
         if (!product) {
-            return res.status(404).send(
-                {
-                    status: false,
-                    message: "No product found against id " + req.params.productID
-                }
-            )
-        }
-        else {
-            return res.send(
-                {
-                    status: true,
-                    message: "Product retrieved successfully",
-                    data: product
-                }
-            )
+            return res.status(404).send({
+                status: false,
+                message: "No product found against id " + req.params.productID
+            })
+        } else {
+            return res.send({
+                status: true,
+                message: "Product retrieved successfully",
+                data: product
+            })
         }
     } catch (error) {
 
         console.log(error.message);
         console.log(error.stack);
-        return res.status(404).send(
-            {
-                status: false,
-                message: "No product found against id " + req.params.productID
-            }
-        )
+        return res.status(404).send({
+            status: false,
+            message: "No product found against id " + req.params.productID
+        })
     }
 
 }
@@ -92,14 +86,33 @@ exports.findOne = async (req, res) => {
 exports.Update = (req, res) => {
     console.log(req.body);
 
-    Product.findByIdAndDelete(req.params.productID, {name: req.body.name, price: req.body.price}, (err, res) => {
-        if(err) {
+    Product.findByIdAndUpdate(req.params.productID, {
+        name: req.body.name,
+        price: req.body.price
+    }, (err, res) => {
+        if (err) {
             console.log(err)
         }
         console.log('Result is ' + res);
 
     })
     res.send('Done')
+}
+
+exports.DeleteProduct = async (req, res) => {
+    console.log(req.body);
+    let deletedProduct = await Product.findByIdAndRemove(req.params.productID, (err, res) => {
+        if (err) {
+            console.log(err)
+        }
+        console.log('Result is ' + res);
+
+    }).exec();
+    res.send({
+        productDeleted: true,
+        message: "Product Deleted Successfully",
+        data: deletedProduct
+    })
 }
 // exports.Update = async (req, res) => {
 //     let updatedProduct = await Product.findByIdAndUpdate(req.params.product_ID,
@@ -109,7 +122,7 @@ exports.Update = (req, res) => {
 //         },
 //         {new : true}
 //     ).exec();
-    
+
 //     return res.send(
 //         {
 //             status: true,
