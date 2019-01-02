@@ -11,6 +11,7 @@ router.get('/test', productController.test);
 router.post('/Create', productController.create);
 router.get('/GetProducts', productController.findAll);
 router.get('/GetProducts/:productID', productController.findOne);
+router.put('/UpdateProduct/:productID', productController.Update);
 //router.get('/GetProducts', productController.findOne);
 
 module.exports = router;
