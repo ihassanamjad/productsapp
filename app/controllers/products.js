@@ -87,6 +87,40 @@ exports.findOne = async (req, res) => {
 
 }
 
+//Update one product
+
+exports.Update = (req, res) => {
+    console.log(req.body);
+
+    Product.findByIdAndDelete(req.params.productID, {name: req.body.name, price: req.body.price}, (err, res) => {
+        if(err) {
+            console.log(err)
+        }
+        console.log('Result is ' + res);
+
+    })
+    res.send('Done')
+}
+// exports.Update = async (req, res) => {
+//     let updatedProduct = await Product.findByIdAndUpdate(req.params.product_ID,
+//         {
+//             name: req.body.name,
+//             price: req.body.price
+//         },
+//         {new : true}
+//     ).exec();
+    
+//     return res.send(
+//         {
+//             status: true,
+//             message: "Product Updated Successfully",
+//             data: updatedProduct
+
+//         }
+//     )
+//     //
+// }
+
 
 /*exports.findAll = (req, res) => {
     Product.find().then(
